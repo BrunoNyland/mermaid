@@ -47,7 +47,7 @@ graph LR;
     Administrador --> UC15;
     Administrador --> UC16;
 
-    UC8 -.-> |"<<include>>"| UC9; %% Usando seta tracejada para include
+    UC8 -.-> |"<<include>>"| UC9;
     UC8 -.-> |"<<include>>"| UC7;
     UC11 -.-> |"<<include>>"| UC6;
 
