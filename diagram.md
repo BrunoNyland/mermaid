@@ -1,7 +1,5 @@
-
-%%{init: {'theme': 'base', 'themeVariables': {'actorStroke': '#333', 'actorTextColor': '#000'}}}%%
-
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'actorStroke': '#333', 'actorTextColor': '#000'}}}%%
 
 usecaseDiagram
   actor Visitante
