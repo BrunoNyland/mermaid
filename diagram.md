@@ -1,9 +1,10 @@
 ```mermaid
-usecase  // <-- DECLARE O TIPO DE DIAGRAMA AQUI PRIMEIRO
+usecase
+
 ---
 title: Diagrama de Caso de Uso - E-commerce de Eletrônicos
 ---
-left to right direction // Diretiva de layout depois da declaração do tipo
+left to right direction
 
 actor Visitante
 actor Cliente
