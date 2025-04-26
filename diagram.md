@@ -1,64 +1,66 @@
 ```mermaid
-usecase
+graph LR; %% Declara um fluxograma da Esquerda para Direita
 
----
-title: Diagrama de Caso de Uso - E-commerce de Eletrônicos
----
-left to right direction
+    %% Definindo os Atores como nós
+    Visitante[Visitante]; %% Nó retangular para Ator
+    Cliente[Cliente];
+    Administrador[Administrador];
+    SistemaPagamento["Sistema de Pagamento Externo"]; %% Colocar entre aspas se tiver espaços/quebra de linha
 
-actor Visitante
-actor Cliente
-actor Administrador
-actor "Sistema de\nPagamento Externo" as SistemaPagamento
+    %% Definindo o Sistema como um Subgraph
+    subgraph System [Sistema de E-commerce]
+        direction LR
+        %% Definindo Casos de Uso como nós (usando parênteses para forma ovalada/arredondada)
+        UC1("Navegar no Catálogo");
+        UC2("Pesquisar Produtos");
+        UC3("Ver Detalhes do Produto");
+        UC4("Adicionar Produto ao Carrinho");
+        UC5("Criar Conta");
+        UC6("Realizar Login");
+        UC7("Gerenciar Carrinho");
+        UC8("Efetuar Pedido");
+        UC9("Processar Pagamento");
+        UC10("Acompanhar Status da Entrega");
+        UC11("Deixar Avaliação/Comentário");
+        UC12("Cadastrar Produto");
+        UC13("Atualizar Produto");
+        UC14("Gerenciar Categorias");
+        UC15("Processar Pedidos (Admin)");
+        UC16("Analisar Vendas (Relatórios)");
+    end
 
-rectangle "Sistema de E-commerce" {
-  usecase "Navegar no Catálogo" as UC1
-  usecase "Pesquisar Produtos" as UC2
-  usecase "Ver Detalhes do Produto" as UC3
-  usecase "Adicionar Produto ao Carrinho" as UC4
-  usecase "Criar Conta" as UC5
-  usecase "Realizar Login" as UC6
-  usecase "Gerenciar Carrinho" as UC7
-  usecase "Efetuar Pedido" as UC8
-  usecase "Processar Pagamento" as UC9
-  usecase "Acompanhar Status da Entrega" as UC10
-  usecase "Deixar Avaliação/Comentário" as UC11
-  usecase "Cadastrar Produto" as UC12
-  usecase "Atualizar Produto" as UC13
-  usecase "Gerenciar Categorias" as UC14
-  usecase "Processar Pedidos (Admin)" as UC15
-  usecase "Analisar Vendas (Relatórios)" as UC16
-}
+    %% Conectando Atores aos Casos de Uso (Associações)
+    Visitante --> UC1;
+    Visitante --> UC2;
+    Visitante --> UC3;
+    Visitante --> UC4;
 
-' Atores e suas interações
-Visitante -- UC1
-Visitante -- UC2
-Visitante -- UC3
-Visitante -- UC4
+    %% Relação Cliente - Visitante (Generalização representada como link simples)
+    %% Nota: Flowchart não tem seta específica para generalização UML
+    Cliente -- "herda de" --> Visitante; %% Usando label na seta para indicar relação
 
-Cliente --|> Visitante ' Generalização: Cliente é um tipo de Visitante
+    %% Conectando Cliente aos Casos de Uso
+    Cliente --> UC5;
+    Cliente --> UC6;
+    Cliente --> UC7;
+    Cliente --> UC8;
+    Cliente --> UC10;
+    Cliente --> UC11;
+    Cliente --> UC4; %% Cliente também usa UC4
 
-Cliente -- UC5
-Cliente -- UC6
-Cliente -- UC7
-Cliente -- UC8
-Cliente -- UC10
-Cliente -- UC11
-Cliente -- UC4 ' Cliente também adiciona ao carrinho
+    %% Conectando Administrador aos Casos de Uso
+    Administrador --> UC6; %% Admin também precisa logar
+    Administrador --> UC12;
+    Administrador --> UC13;
+    Administrador --> UC14;
+    Administrador --> UC15;
+    Administrador --> UC16;
 
-Administrador -- UC6 ' Admin também precisa logar
-Administrador -- UC12
-Administrador -- UC13
-Administrador -- UC14
-Administrador -- UC15
-Administrador -- UC16
+    %% Relações entre Casos de Uso (Include/Extend com setas tracejadas e label)
+    UC8 -.-> |"<<include>>"| UC9; %% Usando seta tracejada para include
+    UC8 -.-> |"<<include>>"| UC7;
+    UC11 -.-> |"<<include>>"| UC6;
+    %% UC11 -.-> |"depende de"| UC8; %% Relação de dependência pode ser implícita ou anotada
 
-' Relacionamentos entre Casos de Uso
-UC8 ..> UC9 : <<include>> ' Efetuar Pedido inclui Processar Pagamento
-UC8 ..> UC7 : <<include>> ' Efetuar Pedido inclui Gerenciar/Usar Carrinho
-UC11 ..> UC6 : <<include>> ' Para avaliar, precisa estar logado (implícito/dependência)
-UC11 ..> UC8 : <<depends>> ' Depende de ter feito um pedido (Restrição)
-
-' Interação com Sistema Externo
-UC9 -- SistemaPagamento ' Processar Pagamento interage com o Sistema Externo
-´´´
+    %% Conectando Caso de Uso ao Sistema Externo
+    UC9 --> SistemaPagamento;
