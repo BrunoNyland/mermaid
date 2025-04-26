@@ -1,9 +1,10 @@
 ```mermaid
-
+usecase  // <-- DECLARE O TIPO DE DIAGRAMA AQUI PRIMEIRO
 ---
 title: Diagrama de Caso de Uso - E-commerce de Eletrônicos
 ---
-left to right direction
+left to right direction // Diretiva de layout depois da declaração do tipo
+
 actor Visitante
 actor Cliente
 actor Administrador
@@ -59,5 +60,4 @@ UC11 ..> UC8 : <<depends>> ' Depende de ter feito um pedido (Restrição)
 
 ' Interação com Sistema Externo
 UC9 -- SistemaPagamento ' Processar Pagamento interage com o Sistema Externo
-
-```
+´´´
