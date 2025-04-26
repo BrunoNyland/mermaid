@@ -1,54 +1,70 @@
 ```mermaid
-graph LR;
-    Visitante[Visitante];
-    Cliente[Cliente];
-    Administrador[Administrador];
-    SistemaPagamento["Sistema de Pagamento Externo"];
+classDiagram
+    class Produto {
+        +String nome
+        +String descricao
+        +Decimal preco
+        +Integer quantidadeEmEstoque
+        +String categoria
+        +String marca
+        +List~Avaliacao~ avaliacoes
+    }
 
-    subgraph System [Sistema de E-commerce]
-        direction LR
-        UC1("Navegar no Catálogo");
-        UC2("Pesquisar Produtos");
-        UC3("Ver Detalhes do Produto");
-        UC4("Adicionar Produto ao Carrinho");
-        UC5("Criar Conta");
-        UC6("Realizar Login");
-        UC7("Gerenciar Carrinho");
-        UC8("Efetuar Pedido");
-        UC9("Processar Pagamento");
-        UC10("Acompanhar Status da Entrega");
-        UC11("Deixar Avaliação/Comentário");
-        UC12("Cadastrar Produto");
-        UC13("Atualizar Produto");
-        UC14("Gerenciar Categorias");
-        UC15("Processar Pedidos (Admin)");
-        UC16("Analisar Vendas (Relatórios)");
-    end
+    class Cliente {
+        +String nomeCompleto
+        +String email
+        +String senha
+        +List~Endereco~ enderecos
+        +List~Telefone~ telefones
+        +List~Pedido~ historicoPedidos
+        +List~Avaliacao~ avaliacoes
+    }
 
-    Visitante --> UC1;
-    Visitante --> UC2;
-    Visitante --> UC3;
-    Visitante --> UC4;
+    class Endereco {
+        +String rua
+        +String cidade
+        +String estado
+        +String cep
+    }
 
-    Cliente -- "herda de" --> Visitante; 
+    class Telefone {
+        +String tipo
+        +String numero
+    }
 
-    Cliente --> UC5;
-    Cliente --> UC6;
-    Cliente --> UC7;
-    Cliente --> UC8;
-    Cliente --> UC10;
-    Cliente --> UC11;
-    Cliente --> UC4;
+    class Pedido {
+        +Integer id
+        +DateTime dataPedido
+        +Cliente cliente
+        +String status
+        +String metodoPagamento
+        +List~ItemPedido~ itensPedido
+    }
 
-    Administrador --> UC6; 
-    Administrador --> UC12;
-    Administrador --> UC13;
-    Administrador --> UC14;
-    Administrador --> UC15;
-    Administrador --> UC16;
+    class ItemPedido {
+        +Integer quantidade
+        +Decimal valorUnitario
+        +Produto produto
+        +Pedido pedido
+    }
 
-    UC8 -.-> |"<<include>>"| UC9;
-    UC8 -.-> |"<<include>>"| UC7;
-    UC11 -.-> |"<<include>>"| UC6;
+    class Avaliacao {
+        +Integer id
+        +Integer nota
+        +String comentario
+        +Cliente cliente
+        +Produto produto
+    }
 
-    UC9 --> SistemaPagamento;
+    Produto "1..*" -- "*" ItemPedido : Contém
+    Pedido "*" -- "1..*" Produto : Produtos
+    Pedido "1" -- "*" ItemPedido : itensPedido
+    Cliente "1" -- "*" Pedido : realiza
+    Cliente "*" -- "*" Avaliacao : avalia
+    Produto "*" -- "*" Avaliacao : recebe
+    Cliente "1" -- "*" Endereco : possui
+    Cliente "1" -- "*" Telefone : possui
+    ItemPedido "*" -- "1" Pedido : pedido
+    ItemPedido "*" -- "1" Produto : produto
+    Avaliacao "*" -- "1" Cliente : cliente
+    Avaliacao "*" -- "1" Produto : produto
